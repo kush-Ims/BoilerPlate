@@ -8,7 +8,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 
 import { fetchItems } from "../Data/api";
 
-function Dashboard() {
+function layout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [tasks, setTasks] = useState([]);
 
@@ -81,4 +81,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default layout;

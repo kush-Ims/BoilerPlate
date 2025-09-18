@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 
-function Forms() {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -39,7 +39,7 @@ function Forms() {
     toast.success("Login successful!", { position: "top-right" });
 
     setTimeout(() => {
-      navigate("/dashboard"); // Redirect to dashboard
+      navigate("/layout"); // Redirect to layout
     }, 1000);
   };
 
@@ -115,4 +115,4 @@ function Forms() {
   );
 }
 
-export default Forms;
+export default Login;
