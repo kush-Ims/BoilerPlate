@@ -19,9 +19,12 @@ function Navbar({ onToggleSidebar }) {
 
   const navigate = useNavigate();
 
-  const handlelogout = () => {
-    navigate("/");
-  };
+const handlelogout = () => {
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("userInfo");
+  navigate("/");
+};
 
   const notifications = [
     { id: 1, text: "New comment on your post", icon: <MessageSquare className="h-5 w-5" /> },
@@ -38,7 +41,7 @@ function Navbar({ onToggleSidebar }) {
           className="h-6 w-8 text-black mr-3 cursor-pointer"
           onClick={onToggleSidebar}
         />
-        <h3 className="text-lg text-black font-bold">UK Health Care</h3>
+        <h3 className="text-lg text-black font-bold">Base Boiler Plate</h3>
       </div>
 
       {/* Right side */}
