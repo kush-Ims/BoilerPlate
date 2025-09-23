@@ -34,36 +34,36 @@ function Dcards() {
       title: "Total Todos",
       value: stats.totalTodos,
       description: "All todos in the system",
-      icon: <ListTodo className="h-6 w-6 text-blue-500" />,
+      icon: <ListTodo className="h-6 w-6 text-[#272523]" />,
     },
     {
       title: "Completed Todos",
       value: stats.completedTodos,
       description: "Tasks already completed",
-      icon: <CheckCircle className="h-6 w-6 text-green-500" />,
+      icon: <CheckCircle className="h-6 w-6 text-[#272523]" />,
     },
     {
       title: "Pending Todos",
       value: stats.pendingTodos,
       description: "Tasks yet to be done",
-      icon: <XCircle className="h-6 w-6 text-red-500" />,
+      icon: <XCircle className="h-6 w-6 text-[#272523]" />,
     },
     {
       title: "Unique Users",
       value: stats.uniqueUsers,
       description: "Users assigned with todos",
-      icon: <Users className="h-6 w-6 text-purple-500" />,
+      icon: <Users className="h-6 w-6 text-[#272523]" />,
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-1">
+    <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-6 p-1">
       {features.map((item, i) => (
         <div key={i} className="p-[2px] rounded-xl shadow-lg">
           <div className="bg-white rounded-xl p-6 h-full flex flex-col justify-between">
             <div className="flex justify-between items-center mb-1">
               <div className="text-3xl font-bold text-gray-900">{item.value}</div>
-              <div className="bg-white p-3 rounded-full flex items-center justify-center shadow-md hover:bg-gray-100">
+              <div className="bg-[#FFD369] p-3 rounded-full flex items-center justify-center shadow-md hover:bg-gray-100">
                 {item.icon}
               </div>
             </div>

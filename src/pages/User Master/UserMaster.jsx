@@ -10,8 +10,9 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { Edit, Delete, Visibility } from "@mui/icons-material";
+import { Edit, Delete } from "@mui/icons-material";
 import toast, { Toaster } from "react-hot-toast";
+import UserModal from "./UserModal";
 
 // Sample data for users
 const initialUsers = [
@@ -25,6 +26,11 @@ const UserMaster = () => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalFields, setModalFields] = useState([]);
+  const [modalTitle, setModalTitle] = useState("");
+  const [editingUser, setEditingUser] = useState(null);  
 
   // Filter users based on search
   const filteredUsers = useMemo(
@@ -43,28 +49,66 @@ const UserMaster = () => {
     setUsers(users.filter((u) => u.id !== id));
   };
 
-  const handleEdit = (id) => {
-    toast("Edit user feature coming soon!", { icon: "✏️" });
+  const handleEdit = (user) => {
+    // ✅ Prepare modal for editing user
+    setEditingUser(user);
+    setModalTitle("Edit User");
+    setModalFields([
+      { label: "Name", name: "name", value: user.name },
+      { label: "Email", name: "email", value: user.email },
+      { label: "Role", name: "role", value: user.role },
+      { label: "Status", name: "status", value: user.status },
+    ]);
+    setModalOpen(true);
   };
 
-  const handleView = (id) => {
-    toast("View user details feature coming soon!", { icon: "👀" });
+  const handleAddUser = () => {
+    setEditingUser(null);
+    setModalTitle("Add New User");
+    setModalFields([
+      { label: "Name", name: "name", value: "" },
+      { label: "Email", name: "email", value: "" },
+      { label: "Role", name: "role", value: "" },
+      { label: "Status", name: "status", value: "" },
+    ]);
+    setModalOpen(true);
+  }
+
+  // Handle modal submit for both add/edit
+  const handleSubmitModal = (formData) => {
+    if (editingUser) {
+      // Edit user
+      setUsers((prev) =>
+        prev.map((u) => (u.id === editingUser.id ? { ...u, ...formData } : u))
+      );
+      toast.success("User updated successfully!");
+    } else {
+      // Add new user
+      const newUser = { id: Date.now(), ...formData };
+      setUsers((prev) => [...prev, newUser]);
+      toast.success("User added successfully!");
+    }
+    setModalOpen(false);
   };
 
   return (
-    <div className="p-6 bg-[#f4f3ed] min-h-screen">
+    <div className="p-4 bg-[#f4f3ed] min-h-screen">
       <Toaster position="top-right" />
 
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800">User Master</h1>
-        <button className="mt-3 md:mt-0 bg-[#FFD369] hover:bg-[#e6c055] text-black font-semibold px-5 py-2 rounded-lg shadow-md transition duration-200">
+        <button
+          onClick={handleAddUser}
+          className="mt-3 md:mt-0 bg-[#FFD369] hover:bg-[#e6c055] text-black font-semibold px-5 py-2 rounded-lg shadow-md transition duration-200"
+          variant="contained"
+        >
           + Add New User
         </button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition duration-300">
           <p className="text-gray-500">Total Users</p>
           <p className="text-2xl font-bold">{users.length}</p>
@@ -81,7 +125,7 @@ const UserMaster = () => {
             {users.filter((u) => u.status === "Inactive").length}
           </p>
         </div>
-      </div>
+      </div> */}
 
       {/* Search Box */}
       <div className="mb-4">
@@ -91,7 +135,7 @@ const UserMaster = () => {
           placeholder="Search by name, email or role"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="bg-white rounded-lg"
+          className="bg-white rounded-lg hover:border-gray-400"
         />
       </div>
 
@@ -127,11 +171,6 @@ const UserMaster = () => {
                     </span>
                   </TableCell>
                   <TableCell align="right">
-                    <Tooltip title="View">
-                      <IconButton onClick={() => handleView(user.id)}>
-                        <Visibility />
-                      </IconButton>
-                    </Tooltip>
                     <Tooltip title="Edit">
                       <IconButton onClick={() => handleEdit(user.id)}>
                         <Edit />
@@ -156,6 +195,15 @@ const UserMaster = () => {
           onPageChange={(e, newPage) => setPage(newPage)}
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={(e) => setRowsPerPage(parseInt(e.target.value, 10))}
+        />
+
+        {/* ✅ Common Modal Integration */}
+        <UserModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          title={modalTitle}
+          fields={modalFields}
+          onSubmit={handleSubmitModal}
         />
       </div>
     </div>

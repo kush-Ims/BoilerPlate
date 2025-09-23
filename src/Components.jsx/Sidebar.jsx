@@ -2,10 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {
   Home,
-  Users,
+  User,
   Calendar,
   BarChart2,
+  ChartArea,
 } from "lucide-react";
+import { GraphicEq } from "@mui/icons-material";
 
 function Sidebar({ collapsed, onToggleSidebar }) {
   return (
@@ -18,11 +20,20 @@ function Sidebar({ collapsed, onToggleSidebar }) {
 
         <li>
           <Link
+            to="/dashboard"
+            className="flex items-center gap-3 text-white hover:bg-[#FFD369]/70 p-2 rounded cursor-pointer"
+          >
+            <ChartArea className="h-5 w-5 flex-shrink-0" />
+            {!collapsed && <span>Dashboard</span>}
+          </Link>
+        </li>
+        <li>
+          <Link
             to="/usermaster"
             className="flex items-center gap-3 text-white hover:bg-[#FFD369]/70 p-2 rounded cursor-pointer"
           >
-            <Users className="h-5 w-5 flex-shrink-0" />
-            {!collapsed && <span>Base Master for user</span>}
+            <User className="h-5 w-5 flex-shrink-0" />
+            {!collapsed && <span>BaseMaster-(User)</span>}
           </Link>
         </li>
 

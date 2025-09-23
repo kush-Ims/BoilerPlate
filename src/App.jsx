@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./auth/pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Layout from "./pages/Layout";
-import UserMaster from "./pages/Masters/UserMaster";
+import UserMaster from "./pages/User Master/UserMaster";
 import { Navigate } from "react-router-dom";
 import ForgotPassword from "./Components.jsx/forgotpassword";
 import NotFound from './pages/Notfound';
