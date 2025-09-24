@@ -234,6 +234,7 @@ function Login() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
                 className="ml-3 bg-transparent outline-none w-full text-gray-700 placeholder-gray-400"
               />
               <button

@@ -1,53 +1,47 @@
-import React, { useEffect, useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
-import { fetchItems } from "../Data/api"; // ✅ use your API service
+import React from "react"; 
+import { MaterialReactTable } from "material-react-table";
+import { IconButton, Tooltip } from "@mui/material";
+import { Edit, Delete } from "@mui/icons-material";
 
-export default function DataTable() {
-  const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch data from your API
-  useEffect(() => {
-    fetchItems()
-      .then((data) => {
-        // Map API response into DataGrid format
-        const mappedData = data.map((todo) => ({
-          id: todo.id,
-          title: todo.title,
-          completed: todo.completed ? "✅ Done" : "❌ Pending",
-          userId: todo.userId,
-        }));
-        setTodos(mappedData);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching todos:", error);
-        setLoading(false);
-      });
-  }, []);
-
-  // Define columns for the DataGrid
-  const columns = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "title", headerName: "Task Title", width: 400 },
-    { field: "completed", headerName: "Status", width: 150 },
-    { field: "userId", headerName: "User ID", width: 120 },
+const DataTable = ({ columns, data, onEdit, onDelete, ...rest }) => {
+  // add an extra actions column
+  const finalColumns = [
+    ...columns,
+    {
+      accessorKey: "actions",
+      header: "Actions",
+      Cell: ({ row }) => (
+        <div style={{ display: "flex", gap: "8px" }}>
+          <Tooltip title="Edit">
+            <IconButton
+              size="small"
+              color="primary"
+              onClick={() => onEdit && onEdit(row.original)}
+            >
+              <Edit fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <IconButton
+              size="small"
+              color="error"
+              onClick={() => onDelete && onDelete(row.original.id)}
+            >
+              <Delete fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </div>
+      ),
+    },
   ];
 
   return (
-    <Box sx={{ height: 600, width: "100%", padding: 0 }}>
-      <h2 className="text-xl font-semibold pt-1 mb-3 text-black">
-        Tasks List
-      </h2>
-      <DataGrid
-        rows={todos}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10, 20, 50]}
-        loading={loading}
-        disableSelectionOnClick
-      />
-    </Box>
+    <MaterialReactTable
+      columns={finalColumns}
+      data={data}
+      {...rest} // ✅ forward all extra props (disable menus, etc.)
+    />
   );
-}
+};
+
+export default DataTable;

@@ -56,7 +56,7 @@ const CommonModal = ({ open, onClose, title, apiResponse, onSubmit }) => {
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
                 fullWidth
                 label="Employee Code"
@@ -65,7 +65,7 @@ const CommonModal = ({ open, onClose, title, apiResponse, onSubmit }) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
                 fullWidth
                 label="User Name"
@@ -74,7 +74,7 @@ const CommonModal = ({ open, onClose, title, apiResponse, onSubmit }) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
                 fullWidth
                 label="Email ID"
@@ -83,7 +83,7 @@ const CommonModal = ({ open, onClose, title, apiResponse, onSubmit }) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <FormControlLabel
                 control={
                   <Switch
